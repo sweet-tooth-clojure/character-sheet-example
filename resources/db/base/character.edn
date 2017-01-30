@@ -1,0 +1,65 @@
+{:character-sheet/base-character-sheet-schema
+ {:txes [[{:db/ident :character-sheet/name
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db/unique :db.unique/identity
+           :db/index true
+           :db/fulltext true
+           :db.install/_attribute :db.part/db}
+
+          {:db/ident :character-sheet/level
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/ident :character-sheet/story
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db/fulltext true
+           :db.install/_attribute :db.part/db}
+
+          {:db/ident :character-sheet/strength
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+
+          {:db/ident :character-sheet/motivation
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/ident :character-sheet/attention-span
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/ident :character-sheet/willpower
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/ident :character-sheet/cunning
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/ident :character-sheet/endurance
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/ident :character-sheet/imagination
+           :db/id #db/id [:db.part/db]
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}]]}}

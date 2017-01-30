@@ -1,0 +1,19 @@
+.pager {
+  @include trailer;
+}
+
+.page-num {
+  display: inline-block;
+  @include adjust-font-size-to($ms-down1);
+  background: #eee;
+  padding: 0 .5em;
+  border-radius: 2px;
+  cursor: pointer;
+  color: $charcoal;
+  margin-right: .25em;
+  transition: all 0.2s;
+  &:hover, &.active {
+    background: #ddd;
+    color: $charcoal;
+  }
+}

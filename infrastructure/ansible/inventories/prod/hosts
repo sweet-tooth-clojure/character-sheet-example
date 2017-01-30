@@ -1,0 +1,7 @@
+default ansible_ssh_host=character-sheet-example-prod ansible_ssh_user=root
+
+[webservers]
+default
+
+[database]
+default

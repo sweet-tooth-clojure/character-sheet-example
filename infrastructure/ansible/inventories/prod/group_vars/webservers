@@ -1,0 +1,9 @@
+# -*- mode: yaml -*-
+---
+clojure_uberjar_webapp_domain: www.charactersheetexample.com
+clojure_uberjar_webapp_app_env_local_path: files/env/prod.sh
+clojure_uberjar_webapp_nginx_additional_config: "server {
+        listen 80;
+        server_name notesexample.com;
+        return 301 $scheme://www.charactersheetexample.com$request_uri;
+}"

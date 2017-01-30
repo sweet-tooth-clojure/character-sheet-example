@@ -1,0 +1,56 @@
+.toggle-btn > span {
+  cursor: pointer;
+  background: $light-gray;
+  transition: all 0.2s;
+  display: inline-block;
+  padding: 0 .6em .1em .5em;
+
+  .fa {
+    font-size: .75em;
+    line-height: .0;
+    position: relative;
+  }
+  
+  &.show:hover {
+    background: $green;
+  }
+  &.hide:hover {
+    background: #b1c2c6;
+  }
+}
+
+.horizontal-slide-enter {
+  right: -99.9%;
+  position: relative;
+}
+
+.horizontal-slide-enter.horizontal-slide-enter-active {
+  right: 0;
+  transition: all 200ms ease-in;
+}
+
+.horizontal-slide-leave {
+  right: 0;
+  position: relative;
+}
+
+.horizontal-slide-leave-active {
+  right: -99.9%;
+  transition: all 200ms ease-in;
+}
+
+/** temp animation */
+.anim-enter, .anim-leave {
+    transition: all 200ms ease-out;
+    overflow: hidden;
+}
+.anim-enter, .anim-leave.anim-leave-active {
+    opacity: 0;
+    //transform: scale(0.5, 0);
+    //transform-origin: top left;
+}
+.anim-leave, .anim-enter.anim-enter-active {
+    opacity: 1;
+    //transform: scale(1, 1);
+    //transform-origin: top center;
+}

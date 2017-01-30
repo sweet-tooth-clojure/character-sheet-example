@@ -1,0 +1,35 @@
+.masthead {
+  @include container;
+  @include trailer;
+  position: relative;
+  border-bottom: 1px solid #eee;
+  .site-name {
+    font-family: $title-font;
+    font-weight: 100;
+    @include adjust-font-size-to($ms-up2);
+    color: $charcoal;
+
+    a {
+      color: $charcoal;
+      &:hover {
+        color: $active;
+      }
+    }
+
+    span {
+      font-weight: normal;
+      //color: $red;
+    }
+
+    span.subtitle {
+      @include adjust-font-size-to($base-font-size, 2, $ms-up2);
+      font-weight: 100;
+      padding-left: .5em;
+    }
+  }
+
+  .session {
+    float: right;
+    @include adjust-font-size-to($base-font-size, 2, $base-font-size);
+  }
+}

@@ -1,0 +1,24 @@
+.sidebar {
+  @include span(3 of 12);
+  div.submit {
+    @include trailer;
+  }
+}
+
+.main {
+  @include span(9 of 12 at 4);
+}
+
+.error-messages {
+  background: $red;
+  color: white;
+  font-style: italic;
+  padding: 0 .75em;
+  @include adjust-font-size-to($ms-down1);
+  @include padding-leader(.25, $ms-down1);
+  @include padding-trailer(.25, $ms-down1);
+}
+
+.form-container {
+  @include trailer;
+}

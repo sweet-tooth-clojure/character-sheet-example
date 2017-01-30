@@ -1,0 +1,22 @@
+[:character-sheets
+ [{:character-sheet/name "Boopsie"
+   :character-sheet/level 1
+   :character-sheet/story "Born in a very silly land"
+   :character-sheet/strength 3
+   :character-sheet/motivation 2
+   :character-sheet/attention-span 3
+   :character-sheet/willpower 5
+   :character-sheet/cunning 1
+   :character-sheet/endurance 3
+   :character-sheet/imagination 10}
+
+  {:character-sheet/name "Box"
+   :character-sheet/level 1
+   :character-sheet/story "Loves carrying things"
+   :character-sheet/strength 8
+   :character-sheet/motivation 3
+   :character-sheet/attention-span 2
+   :character-sheet/willpower 4
+   :character-sheet/cunning 1
+   :character-sheet/endurance 12
+   :character-sheet/imagination 1}]]

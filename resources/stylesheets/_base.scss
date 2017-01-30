@@ -1,0 +1,113 @@
+$susy: (
+  columns: 12,
+  column-width: 4.5em,
+  gutters: 1/4,
+  math: fluid,
+  output: static,
+  container-position: center
+);
+
+/* media */
+$iphone4: 'only screen' (min-device-width 320px) (max-device-width 480px) (orientation portrait) (-webkit-min-device-pixel-ratio 2);
+$iphone5: 'only screen' (min-device-width 320px) (max-device-width 568px) (-webkit-min-device-pixel-ratio 2) (orientation portrait);
+$iphone6: 'only screen' (min-device-width 375px) (max-device-width 667px) (-webkit-min-device-pixel-ratio 2) (orientation portrait);
+$iphone6p: 'only screen' (min-device-width 414px) (max-device-width 736px) (-webkit-min-device-pixel-ratio 3) (orientation portrait);
+
+$galaxy: 'screen' (device-width: 320px) (device-height: 640px) (orientation: portrait);
+
+$mobile: $iphone4, $iphone5, $iphone6, $iphone6p, $galaxy;
+
+
+$narrow: 0 59em;
+
+$vnarrow: 0 40em;
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+html, #app {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+  color: $charcoal;
+  margin: 0;
+  box-sizing: border-box;
+  @include padding-trailer(3);
+}
+
+.app {
+  min-height: 100%;
+}
+
+a {
+  color: $salmon;
+  text-decoration: none;
+  &:hover {
+    color: $active;
+  }
+}
+
+
+.container {
+  @include container;
+}
+
+.clear {
+  clear: both;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.tip {
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+img {
+  max-width: 100%
+}
+
+ul {
+  @include trailer;
+}
+
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #eee;
+  @include padding-leader(.5);
+  @include padding-trailer(.5);
+
+  a {
+    color: $charcoal;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .support {
+    float: right;
+  }
+}

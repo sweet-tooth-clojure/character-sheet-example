@@ -1,0 +1,8 @@
+---
+- hosts: webservers
+  become: true
+  become_method: sudo
+  roles:
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-common"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-app"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-nginx"

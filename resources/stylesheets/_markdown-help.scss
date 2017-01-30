@@ -1,0 +1,49 @@
+.markdown-toggle {
+  cursor: pointer;
+  &:hover {
+    color: $charcoal;
+  }
+}
+
+.markdown-help {
+  background: white;
+  border-top: .5em solid rgba(0,0,0,0.1);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  
+  @include padding-leader;
+  @include padding-trailer(3);
+  
+  ul {
+    margin-bottom: 0;
+  }
+  
+  tr {
+    border-bottom: 1px solid #ccc;
+  }
+  tr:first-child {
+    border-bottom: none;
+    td {
+      @include padding-trailer;
+    }
+  }
+  
+  td {
+    @include padding-leader(.25);
+    @include padding-trailer(.25);
+    padding-right: .5em;
+  }
+
+  table {
+    clear: both;
+  }
+
+  .cancel {
+    @include adjust-font-size-to($base-font-size, 1, $ms-up1);
+    color: $red;
+    float: right;
+    cursor: pointer;
+  }
+}
