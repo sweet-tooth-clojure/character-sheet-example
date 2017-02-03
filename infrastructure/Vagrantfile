@@ -16,6 +16,18 @@ Vagrant.configure("2") do |config|
 
   # Use localhost:8000 to connect to nginx
   config.vm.network :forwarded_port, guest: 80, host: 8000
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook = f "ansible/provision.yml"
+    ansible.groups = {
+      "webservers" => ["default"],
+      "database" => ["default"]
+    }
+    ansible.skip_tags = "deploy"
+    ansible.extra_vars = {
+      clojure_uberjar_webapp_domain: "localhost",
+      clojure_uberjar_webapp_app_env_local_path: "files/env/dev.sh"
+    }
+  end
   config.vm.provider "virtualbox" do |v|
     # Modify this to match the droplet size you plan on using
     v.memory = 1028
