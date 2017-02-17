@@ -2,3 +2,4 @@
 ---
 clojure_uberjar_webapp_domain: staging.charactersheetexample.com
 clojure_uberjar_webapp_app_env_local_path: files/env/staging.sh
+clojure_uberjar_webapp_app_http_port: 9000

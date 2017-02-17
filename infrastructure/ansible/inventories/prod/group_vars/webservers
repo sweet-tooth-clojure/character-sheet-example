@@ -2,3 +2,4 @@
 ---
 clojure_uberjar_webapp_domain: YOUR IP ADDRESS
 clojure_uberjar_webapp_app_env_local_path: files/env/prod.sh
+clojure_uberjar_webapp_app_http_port: 9010
