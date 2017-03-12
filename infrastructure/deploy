@@ -1,4 +1,4 @@
 #!/bin/bash
 cp ../target/build/app.jar ansible/files/app.jar
 cd ansible
-ansible-playbook -i inventories/$1 deploy.yml --skip-tags=install
+ansible-playbook -i inventories/$1 sweet-tooth.yml --skip-tags=install
