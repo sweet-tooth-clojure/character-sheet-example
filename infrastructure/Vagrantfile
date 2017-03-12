@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   # Use localhost:8000 to connect to nginx
   config.vm.network :forwarded_port, guest: 80, host: 8000
   config.vm.provision :ansible do |ansible|
-    ansible.playbook = f "ansible/provision.yml"
+    ansible.playbook = f "ansible/sweet-tooth.yml"
     ansible.groups = {
       "webservers" => ["default"],
       "database" => ["default"]
