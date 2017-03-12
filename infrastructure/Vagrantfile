@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
     ansible.skip_tags = "deploy"
     ansible.extra_vars = {
       clojure_uberjar_webapp_domain: "localhost",
-      clojure_uberjar_webapp_app_env_local_path: "files/env/dev.sh"
+      clojure_uberjar_webapp_app_env_local_path: "ansible/files/env/dev.sh"
     }
   end
   config.vm.provider "virtualbox" do |v|
