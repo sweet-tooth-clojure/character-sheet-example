@@ -4,12 +4,13 @@
   become_method: sudo
   roles:
     - "sweet-tooth-clojure.clojure-uberjar-webapp-common"
-    - "sweet-tooth-clojure.clojure-uberjar-webapp-app"
     - "sweet-tooth-clojure.clojure-uberjar-webapp-nginx"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-datomic-free"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-app"
 
 - hosts: database
   become: true
   become_method: sudo
   roles:
     - "sweet-tooth-clojure.clojure-uberjar-webapp-common"
-    - "sweet-tooth-clojure.datomic-free"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-datomic-free"

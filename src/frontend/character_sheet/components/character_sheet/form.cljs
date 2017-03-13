@@ -21,7 +21,7 @@
        [:form (stfc/on-submit form-path (cond-> {:success (if id ::stfh/clear-on-success ::stph/clear-on-success-page)}
                                           page (assoc :data {:page page}) ))
         [input :text :character-sheet/name]
-        [input :text :character-sheet/level]
+        [input :number :character-sheet/level]
         [input :textarea :character-sheet/story]
         [input :number :character-sheet/strength]
         [input :number :character-sheet/motivation]

@@ -41,5 +41,4 @@
 
 (reg-sub :character-sheet
   (fn [db _]
-    (pr "PARAM" (param db :character-sheet-id) (get-in db [:data :character-sheet (js/parseInt (param db :character-sheet-id))]))
     (get-in db [:data :character-sheet (js/parseInt (param db :character-sheet-id))])))

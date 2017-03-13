@@ -68,36 +68,3 @@
             '[?toggle-ent :meta/owner ?user-id]]
            db toggle-target user-id)
       (maybe-result db toggle-target-attr if-not)))
-
-(defn query-user-vote
-  "Transform a query so that it also pulls user votes for the content"
-  [query user-id]
-  (if user-id
-    (-> query
-        (update :find conj '?user-vote)
-        (update :where conj [(list 'ca.db.query.utils/maybe-user-toggle '$ '?e :vote/content user-id false)
-                             '?user-vote]))
-    query))
-
-(defn query-user-flag
-  "Transform a query so that it also pulls user flag for the content"
-  [query user-id]
-  (if user-id
-    (-> query
-        (update :find conj '?user-flag)
-        (update :where conj [(list 'ca.db.query.utils/maybe-user-toggle '$ '?e :flag/flagged user-id false)
-                             '?user-flag]))
-    query))
-
-(defn assoc-user-votes
-  [xs]
-  (map (fn [[result user-vote]] (assoc result :user-voted user-vote)) xs))
-
-
-(defn find-by
-  [db find e & ks]
-  (d/q (into [:find find
-              :in '$
-              :where]
-             (map #(into [e] %) ks))
-       db))
