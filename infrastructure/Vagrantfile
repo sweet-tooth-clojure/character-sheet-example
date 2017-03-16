@@ -6,7 +6,7 @@ def f(path)
 end
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "trusty64"
+  config.vm.box = "ubuntu/trusty64"
 
   # The Clojure app is a process running on port 3000 by default
   # (you can customize this)
