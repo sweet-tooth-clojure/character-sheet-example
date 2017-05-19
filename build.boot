@@ -9,6 +9,7 @@
                   [adzerk/boot-cljs "1.7.228-1" :scope "test"]
                   [adzerk/boot-test "1.1.2" :scope "test"]
                   [org.clojure/core.async "0.2.385"]
+                  [com.taoensso/timbre "4.10.0"]
 
                   ;; logging
                   [org.clojure/tools.logging "0.3.1"]
