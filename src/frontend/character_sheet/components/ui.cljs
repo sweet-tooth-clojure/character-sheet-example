@@ -4,8 +4,10 @@
             [re-frame.core :refer [dispatch subscribe]]
             [clojure.string :as s]
             [character-sheet.components.ui.animate-height :as ah]
+            [character-sheet.utils :as u]
             [sweet-tooth.frontend.core.utils :as stcu]
             [goog.events.KeyCodes :as KeyCodes]
+            [sweet-tooth.frontend.paths :as paths]
             [sweet-tooth.frontend.core.handlers :as stch]))
 
 ;; markdown
@@ -35,16 +37,17 @@
 
 (defn form-toggle
   [form-path show-text hide-text & [data]]
-  (let [visible (subscribe [:form-ui-state form-path])]
-    (fn [form-path show-text hide-text & [data]]
-      (let [toggle-fn #(dispatch [::stch/toggle (stcu/flatv :forms form-path :ui-state)])]
-        (toggle-btn visible
-                    show-text
-                    hide-text
-                    (if data
-                      #(do (dispatch [::stch/assoc-in (stcu/flatv :forms form-path :data) data])
-                           (toggle-fn))
-                      toggle-fn))))))
+  (let [full-form-path (paths/full-form-path form-path)
+        ui-state-path (conj full-form-path :ui-state)
+        visible (subscribe (u/flatv :key ui-state-path))
+        toggle-fn #(dispatch [::stch/toggle ui-state-path])]
+    (toggle-btn visible
+                show-text
+                hide-text
+                (if data
+                  #(do (dispatch [::stch/assoc-in (u/flatv full-form-path :data) data])
+                       (toggle-fn))
+                  toggle-fn))))
 
 (defn focus-child
   [component tag-name & [timeout]]
@@ -67,10 +70,8 @@
 (def ctg (r/adapt-react-class (-> js/React (aget "addons" "CSSTransitionGroup"))))
 
 (defn vertical-slide
-  [show component & opts]
-  [rtg
-   (when @show
-     [(ah/height-class (gensym)) component])])
+  [show component]
+  [rtg (when @show [(ah/height-class (gensym)) component])])
 
 ;; TODO there must be a nicer way to do this where you modify the
 ;; component directly?

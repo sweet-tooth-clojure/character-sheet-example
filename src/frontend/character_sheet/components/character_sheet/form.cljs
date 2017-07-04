@@ -12,14 +12,19 @@
         form-path (if id
                     [:character-sheet :update id]
                     [:character-sheet :create])
-        {:keys [form-state ui-state input]} (stfc/form form-path)]
+        {:keys [form-state form-ui-state form-errors input]} (stfc/form form-path)
+
+        form-spec (if id
+                    {:clear :all}
+                    {:success ::stph/submit-form-success-page
+                     :data {:page page}
+                     :clear :all})]
     [:div.character-sheet-form.form-container
      [ui/form-toggle form-path (str verb " character-sheet") "hide form" c]
-     [ui/vertical-slide ui-state
+     [ui/vertical-slide form-ui-state
       [:div.form
        [:h2 (str verb " character sheet")]
-       [:form (stfc/on-submit form-path (cond-> {:success (if id ::stfh/clear-on-success ::stph/clear-on-success-page)}
-                                          page (assoc :data {:page page}) ))
+       [:form (stfc/on-submit form-path form-spec)
         [input :text :character-sheet/name]
         [input :number :character-sheet/level]
         [input :textarea :character-sheet/story]
@@ -32,5 +37,7 @@
         [input :number :character-sheet/imagination]
         [:input {:type "submit" :value verb}]
         [stfc/progress-indicator form-state]
-        [stfc/form-errors form-path]]]]]))
+        [stfc/error-messages (-> @form-errors
+                                 (select-keys [:authorization :authentication])
+                                 vals)]]]]]))
 

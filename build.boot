@@ -13,8 +13,8 @@
 
                   ;; logging
                   [org.clojure/tools.logging "0.3.1"]
-                  [sweet-tooth/sweet-tooth-workflow "0.1.0-SNAPSHOT"]
-                  [sweet-tooth/sweet-tooth-endpoint "0.1.0-SNAPSHOT"]
+                  [sweet-tooth/sweet-tooth-workflow "0.2.0-SNAPSHOT"]
+                  [sweet-tooth/sweet-tooth-endpoint "0.2.0-SNAPSHOT"]
                   [duct "0.8.0"]
                   [environ "1.0.3"]
                   [ring "1.5.0"]
@@ -46,7 +46,11 @@
                   [cljs-ajax                   "0.5.8"]
                   [com.andrewmcveigh/cljs-time "0.4.0"]
                   [secretary                   "1.2.3"]
-                  [sweet-tooth/sweet-tooth-frontend "0.1.0-SNAPSHOT"]])
+                  [binaryage/devtools          "0.9.4"]
+                  [sweet-tooth/sweet-tooth-frontend "0.2.0-SNAPSHOT"]]
+
+  :checkouts    '[[sweet-tooth/sweet-tooth-endpoint "0.2.0-SNAPSHOT"]
+                  [sweet-tooth/sweet-tooth-frontend "0.2.0-SNAPSHOT"]])
 
 (load-data-readers!)
 
@@ -89,6 +93,11 @@
       db {:uri (:db config)}
       data (merge db (select-keys config [:schema :data :transform]))]
   (task-options!
+    cljs {:compiler-options {:asset-path "/main.out"
+                             :parallel-build true
+                             :preloads '[devtools.preload]}
+          :source-map true}
+    
     run {:files ["system.clj" "endpoint" "db" "middleware" "lib"]
          :regexes true
          :js-main 'character-sheet.core/-main}

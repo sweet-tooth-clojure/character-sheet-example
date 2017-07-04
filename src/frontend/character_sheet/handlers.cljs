@@ -36,3 +36,6 @@
                   :url (str "/api/v1/character-sheet/" id)
                   :on-success [::stch/deep-merge]}
      :db db}))
+
+;; initialize the handler with no interceptors
+(strh/reg-http-event-fx [])

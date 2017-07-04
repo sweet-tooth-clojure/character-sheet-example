@@ -1,0 +1,3 @@
+* run with datomic in memory
+so people don't have to set up datomic to try it out
+* 
