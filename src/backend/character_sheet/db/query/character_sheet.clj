@@ -16,13 +16,16 @@
 
 (defn character-sheets
   [db]
-  (->> (d/q {:find [(list 'pull '?e character-sheet-attrs)]
-             :in '[$]
-             :where [['?e :character-sheet/name]]}
-            db)
-       (map first)))
+  (with-meta
+    (->> (d/q {:find [(list 'pull '?e character-sheet-attrs)]
+               :in '[$]
+               :where [['?e :character-sheet/name]]}
+              db)
+         (map first))
+    {:ent-type :character-sheet}))
 
 (defn character-sheet
   [db id]
-  (d/pull db character-sheet-attrs id))
+  (-> (d/pull db character-sheet-attrs id)
+      (with-meta {:ent-type :character-sheet})))
 

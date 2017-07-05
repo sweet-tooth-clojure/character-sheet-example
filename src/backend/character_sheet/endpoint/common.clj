@@ -23,30 +23,9 @@
       (u/update-vals {[:page :per-page] #(Integer. %)
                       [:sort-by :sort-order :query-id :type] #(keyword (subs % 1))})))
 
-;; formatting query results
-(def types
-  {:character-sheet/name :character-sheet})
-
-(defn format-single
-  [ent ent-type id-key]
-  (when ent-type
-    {:data {ent-type (qu/key-by id-key [ent])}}))
-
-(defn format-coll
-  [ent-type id-key ents]
-  (when ent-type
-    {:data {ent-type (qu/key-by id-key ents)}}))
-
-(defmulti format (fn [e] (if (map? e) :single :coll)))
-
-(defmethod format :single
+(defn format
   [e]
-  (format-single e (some types (keys e)) :db/id))
-
-(defmethod format :coll
-  [e]
-  (format-coll (some types (keys (first e))) :db/id e))
-
+  {:data (c/format e :db/id)})
 
 (defn initialize-decisions
   [component decisions]
