@@ -1,10 +1,10 @@
 (ns character-sheet.endpoint.character-sheet
   (:require [character-sheet.endpoint.common :as lc]
             [sweet-tooth.endpoint.utils :as eu]
+            [sweet-tooth.endpoint.page :as epg]
             [sweet-tooth.endpoint.datomic :as ed]
             [compojure.core :refer :all]
-            [character-sheet.db.query.character-sheet :as qcs]
-            [character-sheet.db.query.page :as qpg]))
+            [character-sheet.db.query.character-sheet :as qcs]))
 
 (defn decisions
   [component]
@@ -12,7 +12,7 @@
     component
     {:list {:handle-ok (fn [ctx]
                          [(->> (qcs/character-sheets (lc/db ctx))
-                               (qpg/paginate (lc/page-params ctx)))])}
+                               (epg/paginate (lc/page-params ctx)))])}
      :show {:handle-ok #(-> (qcs/character-sheet (lc/db %) (eu/ctx-id %))
                             lc/format)}
 
@@ -26,6 +26,6 @@
                           (eu/->ctx :result))
               :handle-created (fn [ctx]
                                 [(->> (qcs/character-sheets (ed/db-after ctx))
-                                      (qpg/paginate (assoc (:page (eu/params ctx)) :page 1)))])}}))
+                                      (epg/paginate (assoc (:page (eu/params ctx)) :page 1)))])}}))
 
 (def endpoint (lc/endpoint "/api/v1/character-sheet" decisions))

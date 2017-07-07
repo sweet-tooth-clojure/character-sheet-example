@@ -1,7 +1,7 @@
 (ns character-sheet.core
   (:require [reagent.core :as r]
             [re-frame.core :refer [dispatch-sync dispatch subscribe]]
-            [accountant.accountant :as acc]
+            [accountant.core :as acc]
             [character-sheet.routes]
             [character-sheet.handlers]
             [character-sheet.subs]

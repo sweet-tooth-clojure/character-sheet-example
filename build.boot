@@ -3,7 +3,7 @@
                   "src/backend"
                   "src/cross"}
   :resource-paths #{"resources"}
-  :dependencies '[[org.clojure/clojure "1.9.0-alpha12"]
+  :dependencies '[[org.clojure/clojure "1.9.0-alpha16"]
                   [org.clojure/clojurescript "1.9.456"]
                   [org.clojure/test.check "0.9.0" :scope "test"]
                   [adzerk/boot-cljs "1.7.228-1" :scope "test"]
@@ -47,6 +47,8 @@
                   [com.andrewmcveigh/cljs-time "0.4.0"]
                   [secretary                   "1.2.3"]
                   [binaryage/devtools          "0.9.4"]
+                  [venantius/accountant        "0.2.0"]
+                  [bidi                        "2.1.1"]
                   [sweet-tooth/sweet-tooth-frontend "0.2.0-SNAPSHOT"]]
 
   :checkouts    '[[sweet-tooth/sweet-tooth-endpoint "0.2.0-SNAPSHOT"]

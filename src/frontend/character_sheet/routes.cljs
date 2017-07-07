@@ -1,34 +1,32 @@
 (ns character-sheet.routes
   (:require [secretary.core :as secretary :refer-macros [defroute]]
             [re-frame.core :refer [dispatch]]
-            [accountant.accountant :as acc]
+            [accountant.core :as acc]
+            [bidi.bidi :as bidi]
 
             [character-sheet.components.character-sheet.list :as csl]
             [character-sheet.components.character-sheet.show :as css]
             
             [sweet-tooth.frontend.core.handlers :as stch]
-            [sweet-tooth.frontend.core.utils :as stcu]))
+            [sweet-tooth.frontend.core.utils :as stcu]
+            [sweet-tooth.frontend.routes :as stro]))
 
-(defn page-params
-  [params]
-  (let [page (select-keys params [:sort-by :sort-order :page :per-page])]
-    (cond-> page
-      (:page page) (assoc :page (js/parseInt (:page page)))
-      (:per-page page) (assoc :per-page (js/parseInt (:per-page page))))))
-
-(defn load
-  [component params page-id]
-  (dispatch [::stch/assoc-in [:nav] {:routed-component component
-                                     :page-id page-id
-                                     :params params}]))
-
+(def routes ["/" {"" :home
+                  ["character-sheet/" :character-sheet-id] :show-character-sheet}])
 
 (defroute "/" {:as params}
-  (dispatch [:load-character-sheets (page-params (:query-params params))])
-  (load [csl/component] nil :home))
+  (dispatch [:load-character-sheets (stro/page-params (:query-params params))])
+  (stro/load [csl/component] nil :home))
 
 (defroute "/character-sheet/:character-sheet-id" {:as params}
   (dispatch [:load-character-sheet (stcu/id-num (:character-sheet-id params))])
-  (load [css/component] params :show-character-sheet))
+  (stro/load [css/component] params :show-character-sheet))
 
-(acc/configure-navigation!)
+(defonce nav
+  ;; Prevent this from getting re-configured on every change
+  (acc/configure-navigation!
+    {:nav-handler
+     (fn [path]
+       (pr "BIDI" path (bidi/match-route routes path))
+       (secretary/dispatch! path))
+     :path-exists? secretary/locate-route}))
