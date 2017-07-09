@@ -12,7 +12,7 @@
     component
     {:list {:handle-ok (fn [ctx]
                          [(->> (qcs/character-sheets (lc/db ctx))
-                               (epg/paginate (lc/page-params ctx)))])}
+                               (epg/paginate (epg/page-params ctx)))])}
      :show {:handle-ok #(-> (qcs/character-sheet (lc/db %) (eu/ctx-id %))
                             lc/format)}
 

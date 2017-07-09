@@ -21,6 +21,7 @@
         page-query (subscribe [::stpf/page-query query-id])]
     (fn []
       (let [character-sheets @character-sheets]
+        (pr "HSEETS" character-sheets)
         [:div.character-sheets.container
          [:h1 "All Character Sheets"]
          [form/form {} @page-query]
