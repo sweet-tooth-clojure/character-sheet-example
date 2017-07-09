@@ -2,7 +2,7 @@
   (:require [reagent.core :as r]
             [re-frame.core :refer [dispatch-sync dispatch subscribe]]
             [accountant.core :as acc]
-            [character-sheet.routes]
+            [character-sheet.dispatch]
             [character-sheet.handlers]
             [character-sheet.subs]
             [character-sheet.components.markdown-help :as mh]

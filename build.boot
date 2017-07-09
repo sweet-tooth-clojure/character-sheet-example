@@ -10,6 +10,7 @@
                   [adzerk/boot-test "1.1.2" :scope "test"]
                   [org.clojure/core.async "0.2.385"]
                   [com.taoensso/timbre "4.10.0"]
+                  [com.cemerick/url "0.1.1"]
 
                   ;; logging
                   [org.clojure/tools.logging "0.3.1"]

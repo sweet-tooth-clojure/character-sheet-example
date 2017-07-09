@@ -1,13 +1,16 @@
 (ns character-sheet.components.character-sheet.list
   (:require [re-frame.core :refer [subscribe]]
+            [character-sheet.routes :as routes]
             [character-sheet.components.paging :as p]
-            [character-sheet.components.character-sheet.form :as form]))
+            [character-sheet.components.character-sheet.form :as form]
+            [bidi.bidi :as bidi]))
 
 (defn character-sheet
   [c]
   [:div.character-sheet-listing
    [:div.name
-    [:a {:href (str "/character-sheet/" (:db/id c))} (:character-sheet/name c)]]])
+    [:a {:href (bidi/path-for routes/routes :show-character-sheet :character-sheet-id (:db/id c))}
+     (:character-sheet/name c)]]])
 
 (defn component
   []

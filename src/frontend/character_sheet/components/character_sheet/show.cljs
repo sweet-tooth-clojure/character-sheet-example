@@ -1,7 +1,9 @@
 (ns character-sheet.components.character-sheet.show
   (:require [re-frame.core :refer [subscribe]]
+            [character-sheet.routes :as routes]
             [character-sheet.components.character-sheet.form :as form]
-            [character-sheet.components.ui :as ui]))
+            [character-sheet.components.ui :as ui]
+            [bidi.bidi :as bidi]))
 
 (defn component
   []
@@ -9,6 +11,9 @@
     (fn []
       (let [cs @cs]
         [:div.character-sheet.container
+         [:a {:href (bidi/path-for routes/routes :home)}
+          "home"]
+         [:a {:href ()}]
          [:h1 (:character-sheet/name cs)]
          [form/form cs]
          [:div "story:"
