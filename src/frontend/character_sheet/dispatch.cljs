@@ -14,13 +14,6 @@
             [sweet-tooth.frontend.core.utils :as stcu]
             [sweet-tooth.frontend.routes :as stro]))
 
-(defn params
-  [path]
-  (if (re-find #"\?" path)
-    (-> (str/replace path #".*?\?" "")
-        url/query->map
-        clojure.walk/keywordize-keys)))
-
 (defmulti dispatch-route (fn [handler params] handler))
 
 (defmethod dispatch-route
@@ -42,7 +35,7 @@
     {:nav-handler
      (fn [path]
        (let [match (bidi/match-route routes/routes path)]
-         (dispatch-route (:handler match) (merge (:route-params match) (params path)))))
+         (dispatch-route (:handler match) (merge (:route-params match) (stro/query-params path)))))
      :path-exists?
      (fn [path]
        (boolean (bidi/match-route routes/routes path)))}))
