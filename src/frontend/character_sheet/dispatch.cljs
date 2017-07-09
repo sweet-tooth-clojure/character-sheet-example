@@ -10,7 +10,6 @@
             [character-sheet.components.character-sheet.list :as csl]
             [character-sheet.components.character-sheet.show :as css]
             
-            [sweet-tooth.frontend.core.handlers :as stch]
             [sweet-tooth.frontend.core.utils :as stcu]
             [sweet-tooth.frontend.routes :as stro]))
 
@@ -39,4 +38,3 @@
      :path-exists?
      (fn [path]
        (boolean (bidi/match-route routes/routes path)))}))
-

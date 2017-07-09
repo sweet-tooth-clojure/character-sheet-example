@@ -1,6 +1,6 @@
 (ns character-sheet.components.markdown-help
   (:require [re-frame.core :refer [dispatch subscribe]]
-            [sweet-tooth.frontend.core.handlers :as stch]))
+            [sweet-tooth.frontend.core.flow :as stcf]))
 
 (defn markdown-help
   []
@@ -15,7 +15,7 @@
              [:td {:col-span 2}
               [:h3 "Markdown Cheatsheet "
                [:span.cancel
-                {:on-click #(dispatch [::stch/toggle [:ui :show-markdown-help]])}
+                {:on-click #(dispatch [::stcf/toggle [:ui :show-markdown-help]])}
                 [:i.fa.fa-times]
                 " close"]]]]
             [:tr

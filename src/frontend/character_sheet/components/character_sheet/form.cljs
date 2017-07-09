@@ -1,7 +1,6 @@
 (ns character-sheet.components.character-sheet.form
   (:require [sweet-tooth.frontend.form.components :as stfc]
-            [sweet-tooth.frontend.pagination.handlers :as stph]
-            [sweet-tooth.frontend.form.handlers :as stfh]
+            [sweet-tooth.frontend.pagination.flow :as stpf]
             [character-sheet.components.ui :as ui]
             [clojure.string :as str]))
 
@@ -16,7 +15,7 @@
 
         form-spec (if id
                     {:clear :all}
-                    {:success ::stph/submit-form-success-page
+                    {:success ::stpf/submit-form-success-page
                      :data {:page page}
                      :clear :all})]
     [:div.character-sheet-form.form-container

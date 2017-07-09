@@ -8,7 +8,7 @@
             [sweet-tooth.frontend.core.utils :as stcu]
             [goog.events.KeyCodes :as KeyCodes]
             [sweet-tooth.frontend.paths :as paths]
-            [sweet-tooth.frontend.core.handlers :as stch]))
+            [sweet-tooth.frontend.core.flow :as stcf]))
 
 ;; markdown
 (defn markdown [txt]
@@ -17,7 +17,7 @@
 (defn markdown-toggle
   []
   [:span.markdown-toggle
-   {:on-click #(dispatch [::stch/toggle [:ui :show-markdown-help]])}
+   {:on-click #(dispatch [::stcf/toggle [:ui :show-markdown-help]])}
    "(markdown " [:span.fa.fa-question-circle] ")"])
 
 ;; common components
@@ -40,12 +40,12 @@
   (let [full-form-path (paths/full-form-path form-path)
         ui-state-path (conj full-form-path :ui-state)
         visible (subscribe (u/flatv :key ui-state-path))
-        toggle-fn #(dispatch [::stch/toggle ui-state-path])]
+        toggle-fn #(dispatch [::stcf/toggle ui-state-path])]
     (toggle-btn visible
                 show-text
                 hide-text
                 (if data
-                  #(do (dispatch [::stch/assoc-in (u/flatv full-form-path :data) data])
+                  #(do (dispatch [::stcf/assoc-in (u/flatv full-form-path :data) data])
                        (toggle-fn))
                   toggle-fn))))
 

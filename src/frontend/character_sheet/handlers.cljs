@@ -2,13 +2,13 @@
   (:require [ajax.core :refer [GET]]
             [re-frame.core :refer [reg-event-fx trim-v]]
             [secretary.core :as secretary]
-            [sweet-tooth.frontend.core.handlers :as stch]
-            [sweet-tooth.frontend.form.handlers :as stfh]
-            [sweet-tooth.frontend.pagination.handlers :as stph]
-            [sweet-tooth.frontend.remote.handlers :as strh]))
+            [sweet-tooth.frontend.core.flow :as stcf]
+            [sweet-tooth.frontend.form.flow :as stff]
+            [sweet-tooth.frontend.remote.flow :as strf]
+            [sweet-tooth.frontend.pagination.flow :as stpf]))
 
-(defmethod stfh/url-prefix :default [_ _] "/api/v1")
-(defmethod stfh/data-id :default [_ _ data] (:db/id data))
+(defmethod stff/url-prefix :default [_ _] "/api/v1")
+(defmethod stff/data-id :default [_ _ data] (:db/id data))
 
 (reg-event-fx :load-character-sheets
   [trim-v]
@@ -21,21 +21,19 @@
                              :query-id query-id
                              :type :character-sheet}
                             page-params)]
-      {::strh/http {:method GET
+      {::strf/http {:method GET
                     :url (str "/api/v1/character-sheet?" (secretary/encode-query-params page-query))
-                    :on-success [::stph/merge-page]}
-       :db (-> db
-               (assoc-in [:page :query query-id] page-query)
-               (assoc-in [:page :state query-id] :loading))})))
+                    :on-success [::stpf/merge-page]}
+       :db (stpf/update-db-page-loading db page-query query-id)})))
 
 
 (reg-event-fx :load-character-sheet
   [trim-v]
   (fn [{:keys [db]} [id]]
-    {::strh/http {:method GET
+    {::strf/http {:method GET
                   :url (str "/api/v1/character-sheet/" id)
-                  :on-success [::stch/deep-merge]}
+                  :on-success [::stcf/deep-merge]}
      :db db}))
 
 ;; initialize the handler with no interceptors
-(strh/reg-http-event-fx [])
+(strf/reg-http-event-fx [])

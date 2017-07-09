@@ -1,5 +1,6 @@
 (ns character-sheet.components.character-sheet.list
   (:require [re-frame.core :refer [subscribe]]
+            [sweet-tooth.frontend.pagination.flow :as stpf]
             [character-sheet.routes :as routes]
             [character-sheet.components.paging :as p]
             [character-sheet.components.character-sheet.form :as form]
@@ -15,9 +16,9 @@
 (defn component
   []
   (let [query-id :character-sheets
-        character-sheets (subscribe [:page-data query-id])
-        page-state (subscribe [:key :page :state query-id])
-        page-query (subscribe [:key :page :query query-id])]
+        character-sheets (subscribe [::stpf/page-data query-id])
+        page-state (subscribe [::stpf/page-state query-id])
+        page-query (subscribe [::stpf/page-query query-id])]
     (fn []
       (let [character-sheets @character-sheets]
         [:div.character-sheets.container
