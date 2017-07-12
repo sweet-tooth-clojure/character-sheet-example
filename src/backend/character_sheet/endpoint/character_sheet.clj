@@ -14,11 +14,11 @@
                          [(->> (qcs/character-sheets (lc/db ctx))
                                (epg/paginate (epg/page-params ctx)))])}
      :show {:handle-ok #(-> (qcs/character-sheet (lc/db %) (eu/ctx-id %))
-                            lc/format)}
+                            lc/format-ent)}
 
      :update {:put! #(-> @(ed/update %) (eu/->ctx :result))
               :handle-ok #(-> (qcs/character-sheet (ed/db-after %) (eu/ctx-id %))
-                              lc/format)}
+                              lc/format-ent)}
 
      :delete {:delete! (comp deref ed/delete)}
      

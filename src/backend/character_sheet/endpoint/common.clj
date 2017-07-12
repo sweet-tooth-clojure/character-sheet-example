@@ -15,9 +15,9 @@
   [ctx]
   (d/db (conn ctx)))
 
-(defn format
+(defn format-ent
   [e]
-  {:entity (c/format e :db/id)})
+  {:entity (c/format-ent e :db/id)})
 
 (defn initialize-decisions
   [component decisions]
