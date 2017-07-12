@@ -15,7 +15,7 @@
                   ;; logging
                   [org.clojure/tools.logging "0.3.1"]
                   [sweet-tooth/sweet-tooth-workflow "0.2.0-SNAPSHOT"]
-                  [sweet-tooth/sweet-tooth-endpoint "0.2.0-SNAPSHOT"]
+                  [sweet-tooth/sweet-tooth-endpoint "0.2.0"]
                   [duct "0.8.0"]
                   [environ "1.0.3"]
                   [ring "1.5.0"]
@@ -50,10 +50,7 @@
                   [binaryage/devtools          "0.9.4"]
                   [venantius/accountant        "0.2.0"]
                   [bidi                        "2.1.1"]
-                  [sweet-tooth/sweet-tooth-frontend "0.2.0-SNAPSHOT"]]
-
-  :checkouts    '[[sweet-tooth/sweet-tooth-endpoint "0.2.0-SNAPSHOT"]
-                  [sweet-tooth/sweet-tooth-frontend "0.2.0-SNAPSHOT"]])
+                  [sweet-tooth/sweet-tooth-frontend "0.2.0"]])
 
 (load-data-readers!)
 
