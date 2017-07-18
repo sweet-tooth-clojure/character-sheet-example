@@ -1,0 +1,29 @@
+{:duct.core/project-ns character-sheet-example
+ :duct.core/environment :production
+
+ :duct.module/logging {}
+ :duct.module.web/site {}
+
+ :duct.middleware.web/defaults
+ {:params    {:urlencoded true
+              :keywordize true
+              :multipart  true
+              :nested     true}
+  :cookies   true
+  :session   {:flash true
+              :cookie-attrs {:http-only true}}
+  :security  {:anti-forgery   false
+              :xss-protection {:enable? true, :mode :block}
+              :frame-options  :sameorigin
+              :content-type-options :nosniff}
+  :static    {:resources ""}
+  :responses {:not-modified-responses false
+              :absolute-redirects     true
+              :content-types          true
+              :default-charset        "utf-8"}}
+
+ :duct.router/cascading
+ [#ig/ref :character-sheet.endpoint/static]
+
+ :character-sheet.endpoint/static
+ {}}

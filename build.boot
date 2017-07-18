@@ -18,7 +18,7 @@
                   [sweet-tooth/sweet-tooth-endpoint "0.2.0"]
                   [duct "0.8.0"]
                   [environ "1.0.3"]
-                  [ring "1.5.0"]
+                  [ring "1.5.0" :exclusions [org.clojure/tools.namespace]]
                   [ring/ring-codec "1.0.1"]
                   [ring/ring-defaults "0.2.1"]
                   [ring-jetty-component "0.3.1"]
@@ -50,7 +50,13 @@
                   [binaryage/devtools          "0.9.4"]
                   [venantius/accountant        "0.2.0"]
                   [bidi                        "2.1.1"]
-                  [sweet-tooth/sweet-tooth-frontend "0.2.0"]])
+                  [sweet-tooth/sweet-tooth-frontend "0.2.0"]
+
+                  ;; duct
+                  [duct/core "0.5.0"]
+                  [duct/module.logging "0.2.0"]
+                  [duct/module.web "0.5.4"]
+                  [integrant/repl "0.2.0"]])
 
 (load-data-readers!)
 
@@ -116,3 +122,17 @@
     migrate-db data
     bootstrap-db data
     recreate-db data))
+
+
+;; duct / integrant
+(comment
+  (require '[clojure.java.io :as io]
+           '[duct.core :as duct]
+           '[integrant.core :as ig]
+           '[integrant.repl :as ir])
+
+  (ir/set-prep! #(duct/prep (duct/read-config (io/resource "duct_9/config.edn"))))
+  (ir/go)
+  (ir/suspend)
+  ;; modify config.edn, removing example route
+  (ir/resume))
