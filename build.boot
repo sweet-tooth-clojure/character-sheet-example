@@ -56,7 +56,9 @@
                   [duct/core "0.5.0"]
                   [duct/module.logging "0.2.0"]
                   [duct/module.web "0.5.4"]
-                  [integrant/repl "0.2.0"]])
+                  [integrant/repl "0.2.0" :exclusions [org.clojure/tools.namespace]]
+                  [samestep/boot-refresh "0.1.0" :exclusions [org.clojure/tools.namespace]]
+                  [integrant "0.4.1"]])
 
 (load-data-readers!)
 
@@ -64,6 +66,7 @@
   '[boot.core]
   '[adzerk.boot-test :refer :all]
   '[adzerk.boot-cljs :refer [cljs]]
+  '[adzerk.boot-reload :refer [reload]]
   '[boot.pod :as pod]
   '[sweet-tooth.workflow.tasks :refer [run dev]]
   '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db]]
@@ -71,7 +74,15 @@
   '[datomic.api :as d]
   '[system.repl :as srepl]
   '[character-sheet.core :as c]
-  '[character-sheet.config :as config])
+  '[character-sheet.config :as config]
+
+  ;; duct
+  '[clojure.java.io :as io]
+  '[duct.core :as duct]
+  '[integrant.core :as ig]
+  '[integrant.repl :as ir]
+  '[samestep.boot-refresh :refer [refresh]]
+  '[deraen.boot-sass :as bs])
 
 (defn new-conn
   []
@@ -123,6 +134,29 @@
     bootstrap-db data
     recreate-db data))
 
+
+(defn prep
+  []
+  (duct/prep (duct/read-config (io/resource "character_sheet_example/config.edn"))))
+
+(deftask restart-integrant
+  []
+  (ir/set-prep! prep)
+  (comp (with-pre-wrap fileset
+          (ir/suspend)
+          fileset)
+        (with-post-wrap _
+          (ir/resume))))
+
+(deftask dev2
+  []
+  (comp (watch)
+        (repl :server true)
+        (bs/sass)
+        (restart-integrant)
+        (refresh)
+        (cljs)
+        (reload)))
 
 ;; duct / integrant
 (comment
