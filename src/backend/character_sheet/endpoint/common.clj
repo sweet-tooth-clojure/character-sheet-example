@@ -22,7 +22,8 @@
 (defn initialize-decisions
   [component decisions]
   (medley/map-vals (fn [v] (assoc v :initialize-context
-                                 (fn [ctx] (assoc ctx :db (:db component)))))
+                                 (fn [ctx]
+                                   (assoc ctx :db {:conn (d/connect (:uri (:db component)))}))))
                    decisions))
 
 (defn endpoint

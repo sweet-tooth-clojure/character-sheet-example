@@ -1,5 +1,6 @@
 (ns character-sheet.endpoint.character-sheet
-  (:require [character-sheet.endpoint.common :as lc]
+  (:require [integrant.core :as ig]
+            [character-sheet.endpoint.common :as lc]
             [sweet-tooth.endpoint.utils :as eu]
             [sweet-tooth.endpoint.page :as epg]
             [sweet-tooth.endpoint.datomic :as ed]
@@ -29,3 +30,6 @@
                                       (epg/paginate (assoc (:page (eu/params ctx)) :page 1)))])}}))
 
 (def endpoint (lc/endpoint "/api/v1/character-sheet" decisions))
+
+(defmethod ig/init-key :character-sheet.endpoint/character-sheet [_ options]
+  (endpoint options))

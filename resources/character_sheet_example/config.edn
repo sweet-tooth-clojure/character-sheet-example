@@ -22,8 +22,14 @@
               :content-types          true
               :default-charset        "utf-8"}}
 
+ :character-sheet.duct/datomic {:uri "datomic:free://localhost:4334/character-sheet"}
+ 
  :duct.router/cascading
- [#ig/ref :character-sheet.endpoint/static]
+ [#ig/ref :character-sheet.endpoint/static
+  #ig/ref :character-sheet.endpoint/character-sheet]
 
  :character-sheet.endpoint/static
- {}}
+ {}
+
+ :character-sheet.endpoint/character-sheet
+ {:db #ig/ref :character-sheet.duct/datomic}}
