@@ -1,6 +1,7 @@
 (ns character-sheet.core
   (:gen-class)
   (:require [datomic.api :as d]
+            [duct.core :as duct]
             [com.stuartsierra.component :as component]
             [com.flyingmachine.datomic-booties.core :as datb]
             [character-sheet.system :as system]
@@ -18,6 +19,10 @@
 (defn system
   []
   (system/new-system (config/full)))
+
+(defn prep
+  []
+  (duct/prep (duct/read-config (io/resource "character_sheet_example/config.edn"))))
 
 (defn -main
   [cmd & args]

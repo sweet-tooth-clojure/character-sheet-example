@@ -12,7 +12,6 @@
                   [com.taoensso/timbre "4.10.0"]
                   [com.cemerick/url "0.1.1"]
 
-                  ;; logging
                   [org.clojure/tools.logging "0.3.1"]
                   [sweet-tooth/sweet-tooth-workflow "0.2.0-SNAPSHOT"]
                   [sweet-tooth/sweet-tooth-endpoint "0.2.0"]
@@ -69,7 +68,7 @@
   '[adzerk.boot-reload :refer [reload]]
   '[boot.pod :as pod]
   '[sweet-tooth.workflow.tasks :refer [run dev]]
-  '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db]]
+  '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db sym->var]]
   '[com.flyingmachine.datomic-junk :as dj]
   '[datomic.api :as d]
   '[system.repl :as srepl]
@@ -98,7 +97,8 @@
    f file    FILE    str "name of jar file"]
   [version project main file]
   (merge-env! :resource-paths (get-env :source-paths))
-  (comp (cljs :optimizations :advanced
+  (comp (bs/sass)
+        (cljs :optimizations :advanced
               :compiler-options {:parallel-build true})
         (pom :project project :version version)
         (uber :exclude (conj pod/standard-jar-exclusions #".*\.html" #"license" #"LICENSE")) ; needed for arcane magic reasons
@@ -134,14 +134,11 @@
     bootstrap-db data
     recreate-db data))
 
-
-(defn prep
-  []
-  (duct/prep (duct/read-config (io/resource "character_sheet_example/config.edn"))))
-
-(deftask restart-integrant
-  []
-  (ir/set-prep! prep)
+(deftask reload-integrant
+  "Suspends integrant system before next task, and resumes integrant
+  after. Meant to be used in conjunction with samestep/boot-refresh."
+  [p prep-fn PREP-FN sym "Name of function that preps the duct config"]
+  (ir/set-prep! (sym->var prep-fn))
   (comp (with-pre-wrap fileset
           (ir/suspend)
           fileset)
@@ -153,20 +150,8 @@
   (comp (watch)
         (repl :server true)
         (bs/sass)
-        (restart-integrant)
+        (reload-integrant)
         (refresh)
         (cljs)
-        (reload)))
-
-;; duct / integrant
-(comment
-  (require '[clojure.java.io :as io]
-           '[duct.core :as duct]
-           '[integrant.core :as ig]
-           '[integrant.repl :as ir])
-
-  (ir/set-prep! #(duct/prep (duct/read-config (io/resource "duct_9/config.edn"))))
-  (ir/go)
-  (ir/suspend)
-  ;; modify config.edn, removing example route
-  (ir/resume))
+        (reload)
+        (target :dir #{"target/dev"})))
