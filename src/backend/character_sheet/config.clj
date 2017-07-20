@@ -2,7 +2,7 @@
   (:require [environ.core :refer [env]]
             [meta-merge.core :refer [meta-merge]]
             [character-sheet.specs :as cs]
-            [clojure.spec :as s]
+            [clojure.spec.alpha :as s]
             [datomic.api :as d]))
 
 (defn seed-post-inflate

@@ -1,10 +1,12 @@
 (set-env!
   :source-paths #{"src/frontend"
                   "src/backend"
-                  "src/cross"}
-  :resource-paths #{"resources"}
+                  "src/cross"
+                  "dev/src"}
+  :resource-paths #{"resources"
+                    "dev/resources"}
   :dependencies '[[org.clojure/clojure "1.9.0-alpha16"]
-                  [org.clojure/clojurescript "1.9.456"]
+                  [org.clojure/clojurescript "1.9.671"]
                   [org.clojure/test.check "0.9.0" :scope "test"]
                   [adzerk/boot-cljs "1.7.228-1" :scope "test"]
                   [adzerk/boot-test "1.1.2" :scope "test"]
@@ -21,7 +23,6 @@
                   [ring/ring-codec "1.0.1"]
                   [ring/ring-defaults "0.2.1"]
                   [ring-jetty-component "0.3.1"]
-                  [ring-webjars "0.1.1"]
                   [ring-middleware-format "0.7.0"]
                   [meta-merge "0.1.1"]
                   [com.stuartsierra/component "0.3.1"]
@@ -42,9 +43,8 @@
                   [reagent                     "0.6.0-rc" :exclusions [cljsjs/react]]
                   [cljsjs/marked               "0.3.5-0"]
                   [cljsjs/react-with-addons    "15.1.0-0"]
-                  [re-frame                    "0.8.0"]
+                  [re-frame                    "0.9.4"]
                   [cljs-ajax                   "0.5.8"]
-                  [com.andrewmcveigh/cljs-time "0.4.0"]
                   [secretary                   "1.2.3"]
                   [binaryage/devtools          "0.9.4"]
                   [venantius/accountant        "0.2.0"]
@@ -55,9 +55,11 @@
                   [duct/core "0.5.0"]
                   [duct/module.logging "0.2.0"]
                   [duct/module.web "0.5.4"]
-                  [integrant/repl "0.2.0" :exclusions [org.clojure/tools.namespace]]
                   [samestep/boot-refresh "0.1.0" :exclusions [org.clojure/tools.namespace]]
-                  [integrant "0.4.1"]])
+                  [integrant "0.4.1"]
+
+                  ;; local dev
+                  [integrant/repl "0.2.0" :scope "test"]])
 
 (load-data-readers!)
 
@@ -70,10 +72,9 @@
   '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db sym->var]]
   '[com.flyingmachine.datomic-junk :as dj]
   '[datomic.api :as d]
-  '[system.repl :as srepl]
-  '[character-sheet.core :as c]
   '[character-sheet.config :as config]
-  '[integrant.repl :as ir])
+  '[integrant.repl :as ir]
+  '[dev])
 
 (defn new-conn
   []
@@ -95,7 +96,7 @@
            :main 'character-sheet.core
            :file "app.jar"}
 
-    reload-integrant {:prep-fn 'character-sheet.core/prep}
+    reload-integrant {:prep-fn 'dev/prep}
     
     create-db db
     delete-db db

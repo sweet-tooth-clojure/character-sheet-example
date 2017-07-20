@@ -1,25 +1,21 @@
 (ns character-sheet.core
   (:gen-class)
   (:require [clojure.java.io :as io]
+            [clojure.stacktrace :as stacktrace]
             [datomic.api :as d]
             [duct.core :as duct]
-            [com.stuartsierra.component :as component]
             [com.flyingmachine.datomic-booties.core :as datb]
-            [character-sheet.system :as system]
-            [character-sheet.config :as config]))
+            [character-sheet.config :as config]
+            [integrant.core :as ig]))
 
 (defmacro final
   [& body]
   `(do (try (do ~@body)
             (catch Exception exc#
               (do (println "ERROR: " (.getMessage exc#))
-                  (clojure.stacktrace/print-stack-trace exc#)
+                  (stacktrace/print-stack-trace exc#)
                   (System/exit 1))))
        (System/exit 0)))
-
-(defn system
-  []
-  (system/new-system (config/full)))
 
 (defn prep
   []
@@ -29,7 +25,7 @@
   [cmd & args]
   (case cmd
     "server"
-    (component/start-system (system))
+    (ig/init (prep) [:duct/daemon])
     
     "db/install-schemas"
     (final

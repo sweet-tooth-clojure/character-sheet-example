@@ -1,0 +1,2 @@
+{:duct.core/environment :development
+ :duct.core/include ["character_sheet_example/config.edn"]}

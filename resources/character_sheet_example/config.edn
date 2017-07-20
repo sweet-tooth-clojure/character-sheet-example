@@ -22,7 +22,11 @@
               :content-types          true
               :default-charset        "utf-8"}}
 
- :character-sheet.duct/datomic {:uri "datomic:free://localhost:4334/character-sheet"}
+ :duct.server.http/jetty
+ {:port #duct/env ["HTTP_SERVER_PORT" Int :or 3000]}
+ 
+ :character-sheet.duct/datomic
+ {:uri #duct/env ["DB_URI" Str :or "datomic:free://localhost:4334/character-sheet"]}
  
  :duct.router/cascading
  [#ig/ref :character-sheet.endpoint/static
