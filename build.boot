@@ -65,46 +65,21 @@
   '[boot.core]
   '[adzerk.boot-test :refer :all]
   '[adzerk.boot-cljs :refer [cljs]]
-  '[adzerk.boot-reload :refer [reload]]
   '[boot.pod :as pod]
-  '[sweet-tooth.workflow.tasks :refer [run dev]]
+  '[sweet-tooth.workflow.tasks :refer [dev build reload-integrant]]
   '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db sym->var]]
   '[com.flyingmachine.datomic-junk :as dj]
   '[datomic.api :as d]
   '[system.repl :as srepl]
   '[character-sheet.core :as c]
   '[character-sheet.config :as config]
-
-  ;; duct
-  '[clojure.java.io :as io]
-  '[duct.core :as duct]
-  '[integrant.core :as ig]
-  '[integrant.repl :as ir]
-  '[samestep.boot-refresh :refer [refresh]]
-  '[deraen.boot-sass :as bs])
+  '[integrant.repl :as ir])
 
 (defn new-conn
   []
   (d/connect (:db (config/full))))
 
 (def conn (delay (new-conn)))
-
-(deftask build
-  "Builds an uberjar"
-  [v version VERSION str "version number"
-   p project PROJECT sym "project name"
-   m main    MAIN    sym "server ns with main fn"
-   f file    FILE    str "name of jar file"]
-  [version project main file]
-  (merge-env! :resource-paths (get-env :source-paths))
-  (comp (bs/sass)
-        (cljs :optimizations :advanced
-              :compiler-options {:parallel-build true})
-        (pom :project project :version version)
-        (uber :exclude (conj pod/standard-jar-exclusions #".*\.html" #"license" #"LICENSE")) ; needed for arcane magic reasons
-        (aot :namespace #{main})
-        (jar :main main :file file :project project)
-        (target :dir #{"target/build"})))
 
 (let [config (config/full)
       db {:uri (:db config)}
@@ -115,43 +90,15 @@
                              :preloads '[devtools.preload]}
           :source-map true}
     
-    run {:files ["system.clj" "endpoint" "db" "middleware" "lib"]
-         :regexes true
-         :js-main 'character-sheet.core/-main}
-
     build {:version "0.1.0"
            :project 'ca
            :main 'character-sheet.core
            :file "app.jar"}
 
-    dev {:port "3000"
-         :uri (:db config)
-         :sys #'c/system}
-
+    reload-integrant {:prep-fn 'character-sheet.core/prep}
+    
     create-db db
     delete-db db
     migrate-db data
     bootstrap-db data
     recreate-db data))
-
-(deftask reload-integrant
-  "Suspends integrant system before next task, and resumes integrant
-  after. Meant to be used in conjunction with samestep/boot-refresh."
-  [p prep-fn PREP-FN sym "Name of function that preps the duct config"]
-  (ir/set-prep! (sym->var prep-fn))
-  (comp (with-pre-wrap fileset
-          (ir/suspend)
-          fileset)
-        (with-post-wrap _
-          (ir/resume))))
-
-(deftask dev2
-  []
-  (comp (watch)
-        (repl :server true)
-        (bs/sass)
-        (reload-integrant)
-        (refresh)
-        (cljs)
-        (reload)
-        (target :dir #{"target/dev"})))

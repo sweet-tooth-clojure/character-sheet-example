@@ -1,6 +1,7 @@
 (ns character-sheet.core
   (:gen-class)
-  (:require [datomic.api :as d]
+  (:require [clojure.java.io :as io]
+            [datomic.api :as d]
             [duct.core :as duct]
             [com.stuartsierra.component :as component]
             [com.flyingmachine.datomic-booties.core :as datb]
