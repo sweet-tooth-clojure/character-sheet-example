@@ -17,7 +17,9 @@
      :show {:handle-ok #(-> (qcs/character-sheet (lc/db %) (eu/ctx-id %))
                             lc/format-ent)}
 
-     :update {:put! #(-> @(ed/update %) (eu/->ctx :result))
+     :update {:put! (fn [ctx]
+                      (-> @(ed/update ctx)
+                          (eu/->ctx :result)))
               :handle-ok #(-> (qcs/character-sheet (ed/db-after %) (eu/ctx-id %))
                               lc/format-ent)}
 

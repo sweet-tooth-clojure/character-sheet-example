@@ -7,8 +7,8 @@
 (defmethod ig/init-key ::transit-json [_ options]
   #(f/wrap-restful-format % options))
 
-(defmethod ig/init-key ::flush [_]
+(defmethod ig/init-key ::flush [_ _]
   #(flush/wrap-flush %))
 
-(defmethod ig/init-key ::body-params [_]
+(defmethod ig/init-key ::body-params [_ _]
   #(body-params/wrap-body-params %))
