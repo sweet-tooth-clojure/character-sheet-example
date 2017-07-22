@@ -12,19 +12,13 @@
                   [adzerk/boot-test "1.1.2" :scope "test"]
                   [org.clojure/core.async "0.2.385"]
                   [com.taoensso/timbre "4.10.0"]
-                  [com.cemerick/url "0.1.1"]
 
                   [org.clojure/tools.logging "0.3.1"]
-                  [sweet-tooth/sweet-tooth-workflow "0.2.0-SNAPSHOT"]
-                  [sweet-tooth/sweet-tooth-endpoint "0.2.0"]
-                  [duct "0.8.0"]
-                  [environ "1.0.3"]
                   [ring "1.5.0" :exclusions [org.clojure/tools.namespace]]
                   [ring/ring-codec "1.0.1"]
                   [ring/ring-defaults "0.2.1"]
                   [ring-jetty-component "0.3.1"]
                   [ring-middleware-format "0.7.0"]
-                  [meta-merge "0.1.1"]
                   [com.stuartsierra/component "0.3.1"]
                   [liberator "0.14.1"]
                   [com.datomic/datomic-free "0.9.5344" :exclusions [com.google.guava/guava]]
@@ -49,7 +43,6 @@
                   [binaryage/devtools          "0.9.4"]
                   [venantius/accountant        "0.2.0"]
                   [bidi                        "2.1.1"]
-                  [sweet-tooth/sweet-tooth-frontend "0.2.0"]
 
                   ;; duct
                   [duct/core "0.5.0"]
@@ -60,6 +53,15 @@
 
                   ;; local dev
                   [integrant/repl "0.2.0" :scope "test"]])
+
+(def sweet-tooth-packages
+  "Define this seperately so packages can get included as checkouts"
+  '[[sweet-tooth/sweet-tooth-frontend "0.2.1-SNAPSHOT"]
+    [sweet-tooth/sweet-tooth-endpoint "0.2.1-SNAPSHOT"]
+    [sweet-tooth/sweet-tooth-workflow "0.2.0-SNAPSHOT"]])
+
+(set-env! :dependencies #(into % sweet-tooth-packages)
+          :checkouts sweet-tooth-packages)
 
 (load-data-readers!)
 

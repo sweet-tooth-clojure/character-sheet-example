@@ -3,7 +3,6 @@
             [re-frame.core :refer [dispatch]]
             [accountant.core :as acc]
             [bidi.bidi :as bidi]
-            [cemerick.url :as url]
             [clojure.string :as str]
 
             [character-sheet.routes :as routes]
@@ -19,7 +18,7 @@
   :home
   [handler params]
   (dispatch [:load-character-sheets (stro/page-params params)])
-  (stro/load [csl/component] nil :home))
+  (stro/load [csl/component] params :home))
 
 (defmethod dispatch-route
   :show-character-sheet

@@ -12,28 +12,17 @@
 
 (reg-event-fx :load-character-sheets
   [trim-v]
-  (fn [{:keys [db]} [page-params]]
-    (let [query-id :character-sheets
-          page-query (merge {:page 1
-                             :per-page 10
-                             :sort-by :character-sheet/name
-                             :sort-order :asc
-                             :query-id query-id
-                             :type :character-sheet}
-                            page-params)]
-      {::strf/http {:method GET
-                    :url (str "/api/v1/character-sheet?" (secretary/encode-query-params page-query))
-                    :on-success [::stpf/merge-page]}
-       :db (stpf/update-db-page-loading db page-query query-id)})))
-
+  (stpf/GET-fx #(str "/api/v1/character-sheet?" %)
+               {:page 1
+                :per-page 10
+                :sort-by :character-sheet/name
+                :sort-order :asc
+                :query-id :character-sheets
+                :type :character-sheet}))
 
 (reg-event-fx :load-character-sheet
   [trim-v]
-  (fn [{:keys [db]} [id]]
-    {::strf/http {:method GET
-                  :url (str "/api/v1/character-sheet/" id)
-                  :on-success [::stcf/deep-merge]}
-     :db db}))
+  (strf/GET-fx #(str "/api/v1/character-sheet/" (first %2))))
 
 ;; initialize the handler with no interceptors
 (strf/reg-http-event-fx [])
