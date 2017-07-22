@@ -33,7 +33,7 @@
  {:uri       #duct/env ["DB_URI" Str :or "datomic:free://localhost:4334/character-sheet"]
   :schema    ["db/base/character.edn"]
   :data      ["db/seeds.edn"]
-  :transform character-sheet.config/seed-post-inflate}
+  :transform character-sheet.duct.datomic/seed-post-inflate}
 
  :character-sheet.duct.middleware/flush
  {}

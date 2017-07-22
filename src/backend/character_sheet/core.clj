@@ -5,8 +5,8 @@
             [datomic.api :as d]
             [duct.core :as duct]
             [com.flyingmachine.datomic-booties.core :as datb]
-            [character-sheet.config :as config]
-            [integrant.core :as ig]))
+            [integrant.core :as ig]
+            [character-sheet.duct.datomic]))
 
 (defmacro final
   [& body]
@@ -29,13 +29,13 @@
     
     "db/install-schemas"
     (final
-      (let [{:keys [db schema data]} (config/db)]
-        (d/create-database db)
-        (datb/conform (d/connect db)
+      (let [{:keys [uri schema data]} (:character-sheet.duct/datomic (prep))]
+        (d/create-database uri)
+        (datb/conform (d/connect uri)
                       schema
                       data
-                      config/seed-post-inflate)))
+                      character-sheet.duct.datomic/seed-post-inflate)))
 
     "deploy/check"
     ;; ensure that all config vars are set
-    (final (config/full))))
+    (constantly true)))

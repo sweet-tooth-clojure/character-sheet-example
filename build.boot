@@ -71,13 +71,12 @@
   '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db]]
   '[com.flyingmachine.datomic-junk :as dj]
   '[datomic.api :as d]
-  '[character-sheet.config :as config]
   '[integrant.repl :as ir]
   '[dev])
 
 (defn new-conn
   []
-  (d/connect (:db (config/full))))
+  (d/connect (:uri (:character-sheet.duct/datomic (dev/prep)))))
 
 (def conn (delay (new-conn)))
 
