@@ -67,9 +67,8 @@
   '[boot.core]
   '[adzerk.boot-test :refer :all]
   '[adzerk.boot-cljs :refer [cljs]]
-  '[boot.pod :as pod]
   '[sweet-tooth.workflow.tasks :refer [dev build reload-integrant]]
-  '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db sym->var]]
+  '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db]]
   '[com.flyingmachine.datomic-junk :as dj]
   '[datomic.api :as d]
   '[character-sheet.config :as config]
@@ -82,9 +81,7 @@
 
 (def conn (delay (new-conn)))
 
-(let [config (config/full)
-      db {:uri (:db config)}
-      data (merge db (select-keys config [:schema :data :transform]))]
+(let [db (:character-sheet.duct/datomic (dev/prep))]
   (task-options!
     cljs {:compiler-options {:asset-path "/main.out"
                              :parallel-build true
@@ -98,8 +95,8 @@
 
     reload-integrant {:prep-fn 'dev/prep}
     
-    create-db db
-    delete-db db
-    migrate-db data
-    bootstrap-db data
-    recreate-db data))
+    create-db    db
+    delete-db    db
+    migrate-db   db
+    bootstrap-db db
+    recreate-db  db))

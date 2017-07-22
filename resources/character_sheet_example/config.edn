@@ -30,7 +30,10 @@
  {:port #duct/env ["HTTP_SERVER_PORT" Int :or 3000]}
  
  :character-sheet.duct/datomic
- {:uri #duct/env ["DB_URI" Str :or "datomic:free://localhost:4334/character-sheet"]}
+ {:uri       #duct/env ["DB_URI" Str :or "datomic:free://localhost:4334/character-sheet"]
+  :schema    ["db/base/character.edn"]
+  :data      ["db/seeds.edn"]
+  :transform character-sheet.config/seed-post-inflate}
 
  :character-sheet.duct.middleware/flush
  {}
