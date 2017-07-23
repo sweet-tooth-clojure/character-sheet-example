@@ -29,7 +29,7 @@
     
     "db/install-schemas"
     (final
-      (let [{:keys [uri schema data]} (:character-sheet.duct/datomic (prep))]
+      (let [{:keys [uri schema data]} (:sweet-tooth.endpoint/datomic (prep))]
         (d/create-database uri)
         (datb/conform (d/connect uri)
                       schema
