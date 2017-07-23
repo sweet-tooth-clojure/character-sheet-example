@@ -12,17 +12,17 @@
 
 (reg-event-fx :load-character-sheets
   [trim-v]
-  (stpf/GET-fx #(str "/api/v1/character-sheet?" %)
-               {:page 1
-                :per-page 10
-                :sort-by :character-sheet/name
-                :sort-order :asc
-                :query-id :character-sheets
-                :type :character-sheet}))
+  (stpf/GET-page-fx "/api/v1/character-sheet"
+                    {:page 1
+                     :per-page 10
+                     :sort-by :character-sheet/name
+                     :sort-order :asc
+                     :query-id :character-sheets
+                     :type :character-sheet}))
 
 (reg-event-fx :load-character-sheet
   [trim-v]
-  (strf/GET-fx #(str "/api/v1/character-sheet/" (first %2))))
+  (strf/GET-single-fx "/api/v1/character-sheet"))
 
 ;; initialize the handler with no interceptors
 (strf/reg-http-event-fx [])

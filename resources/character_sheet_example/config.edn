@@ -22,28 +22,17 @@
               :content-types          true
               :default-charset        "utf-8"}}
 
- :duct.core/handler {:middleware ^:distinct [#ig/ref :character-sheet.duct.middleware/transit-json
-                                             #ig/ref :character-sheet.duct.middleware/body-params
-                                             #ig/ref :character-sheet.duct.middleware/flush]}
-
  :duct.server.http/jetty
  {:port #duct/env ["HTTP_SERVER_PORT" Int :or 3000]}
+
+ :sweet-tooth.endpoint/middleware {}
  
- :character-sheet.duct/datomic
+ :sweet-tooth.endpoint/datomic
  {:uri       #duct/env ["DB_URI" Str :or "datomic:free://localhost:4334/character-sheet"]
   :schema    ["db/base/character.edn"]
   :data      ["db/seeds.edn"]
   :transform character-sheet.duct.datomic/seed-post-inflate}
 
- :character-sheet.duct.middleware/flush
- {}
- 
- :character-sheet.duct.middleware/body-params
- {}
-
- :character-sheet.duct.middleware/transit-json
- {:formats [:transit-json]}
- 
  :duct.router/cascading
  [#ig/ref :character-sheet.endpoint/static
   #ig/ref :character-sheet.endpoint/character-sheet]
@@ -52,4 +41,4 @@
  {}
 
  :character-sheet.endpoint/character-sheet
- {:db #ig/ref :character-sheet.duct/datomic}}
+ {:db #ig/ref :sweet-tooth.endpoint/datomic}}

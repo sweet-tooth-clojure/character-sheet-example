@@ -38,4 +38,5 @@
 
     "deploy/check"
     ;; ensure that all config vars are set
-    (constantly true)))
+    ;; TODO bring this back
+    (final nil)))

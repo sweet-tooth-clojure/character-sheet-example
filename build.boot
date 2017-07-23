@@ -30,7 +30,7 @@
                   [io.clojure/liberator-transit "0.3.0"]
                   [medley "0.7.1"]
                   [clj-time "0.11.0"]
-                  [com.flyingmachine/datomic-booties "0.1.7"]
+                  [com.flyingmachine/datomic-booties "0.1.8"]
                   [cheshire "5.6.2"]
 
                   ;; client
@@ -48,7 +48,6 @@
                   [duct/core "0.5.0"]
                   [duct/module.logging "0.2.0"]
                   [duct/module.web "0.5.4"]
-                  [samestep/boot-refresh "0.1.0" :exclusions [org.clojure/tools.namespace]]
                   [integrant "0.4.1"]
 
                   ;; local dev
@@ -78,11 +77,12 @@
 
 (defn new-conn
   []
-  (d/connect (:uri (:character-sheet.duct/datomic (dev/prep)))))
+  (d/connect (:uri (:sweet-tooth.endpoint/datomic (dev/prep)))))
 
 (def conn (delay (new-conn)))
 
-(let [db (:character-sheet.duct/datomic (dev/prep))]
+(let [db     (:sweet-tooth.endpoint/datomic (dev/prep))
+      db-uri (select-keys db [:uri])]
   (task-options!
     cljs {:compiler-options {:asset-path "/main.out"
                              :parallel-build true
@@ -96,8 +96,8 @@
 
     reload-integrant {:prep-fn 'dev/prep}
     
-    create-db    db
-    delete-db    db
+    create-db    db-uri
+    delete-db    db-uri
     migrate-db   db
     bootstrap-db db
     recreate-db  db))
