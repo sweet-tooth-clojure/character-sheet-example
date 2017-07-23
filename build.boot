@@ -55,12 +55,11 @@
 
 (def sweet-tooth-packages
   "Define this seperately so packages can get included as checkouts"
-  '[[sweet-tooth/sweet-tooth-frontend "0.2.1-SNAPSHOT"]
-    [sweet-tooth/sweet-tooth-endpoint "0.2.1-SNAPSHOT"]
-    [sweet-tooth/sweet-tooth-workflow "0.2.0-SNAPSHOT"]])
+  '[[sweet-tooth/sweet-tooth-frontend "0.2.1"]
+    [sweet-tooth/sweet-tooth-endpoint "0.2.1"]
+    [sweet-tooth/sweet-tooth-workflow "0.2.0"]])
 
-(set-env! :dependencies #(into % sweet-tooth-packages)
-          :checkouts sweet-tooth-packages)
+(set-env! :dependencies #(into % sweet-tooth-packages))
 
 (load-data-readers!)
 
@@ -89,7 +88,7 @@
                              :preloads '[devtools.preload]}
           :source-map true}
     
-    build {:version "0.1.0"
+    build {:version "0.2.0"
            :project 'ca
            :main 'character-sheet.core
            :file "app.jar"}
