@@ -6,7 +6,8 @@
             [character-sheet.handlers]
             [character-sheet.subs]
             [character-sheet.components.markdown-help :as mh]
-            [sweet-tooth.frontend.core.utils :as stcu]))
+            [sweet-tooth.frontend.core.utils :as stcu]
+            [sweet-tooth.frontend.routes.flow :as strf]))
 
 (enable-console-print!)
 
@@ -21,14 +22,11 @@
 
 (defn app
   []
-  (let  [route-component (subscribe [:key :nav :routed-component])]
-    (fn []
-      (let [route-component @route-component]
-        [:div.app
-         [:div.masthead
-          [:div.site-name "Ye Olde Character Sheets"]]
-         route-component
-         [mh/markdown-help]]))))
+  [:div.app
+   [:div.masthead
+    [:div.site-name "Ye Olde Character Sheets"]]
+   @(subscribe [::strf/routed-component])
+   [mh/markdown-help]])
 
 (defn -main []
   (r/render-component [app] (stcu/el-by-id "app"))

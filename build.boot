@@ -55,11 +55,13 @@
 
 (def sweet-tooth-packages
   "Define this seperately so packages can get included as checkouts"
-  '[[sweet-tooth/sweet-tooth-frontend "0.2.3"]
+  '[[sweet-tooth/sweet-tooth-frontend "0.2.4-SNAPSHOT"]
     [sweet-tooth/sweet-tooth-endpoint "0.2.1"]
     [sweet-tooth/sweet-tooth-workflow "0.2.0"]])
 
-(set-env! :dependencies #(into % sweet-tooth-packages))
+(set-env! :dependencies #(into % sweet-tooth-packages)
+          ;; for dev
+          :checkouts sweet-tooth-packages)
 
 (load-data-readers!)
 
@@ -83,8 +85,7 @@
 (let [db     (:sweet-tooth.endpoint/datomic (dev/prep))
       db-uri (select-keys db [:uri])]
   (task-options!
-    cljs {:compiler-options {:asset-path "/main.out"
-                             :parallel-build true
+    cljs {:compiler-options {:parallel-build true
                              :preloads '[devtools.preload]}
           :source-map true}
     
