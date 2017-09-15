@@ -6,7 +6,7 @@
   :resource-paths #{"resources"
                     "dev/resources"}
   :dependencies '[[org.clojure/clojure "1.9.0-alpha16"]
-                  [org.clojure/clojurescript "1.9.671"]
+                  [org.clojure/clojurescript "1.9.908"]
                   [org.clojure/test.check "0.9.0" :scope "test"]
                   [adzerk/boot-cljs "1.7.228-1" :scope "test"]
                   [adzerk/boot-test "1.1.2" :scope "test"]
@@ -55,9 +55,9 @@
 
 (def sweet-tooth-packages
   "Define this seperately so packages can get included as checkouts"
-  '[[sweet-tooth/sweet-tooth-frontend "0.2.4-SNAPSHOT"]
+  '[[sweet-tooth/sweet-tooth-frontend "0.2.5"]
     [sweet-tooth/sweet-tooth-endpoint "0.2.1"]
-    [sweet-tooth/sweet-tooth-workflow "0.2.0"]])
+    [sweet-tooth/sweet-tooth-workflow "0.2.1"]])
 
 (set-env! :dependencies #(into % sweet-tooth-packages)
           ;; for dev
@@ -69,7 +69,8 @@
   '[boot.core]
   '[adzerk.boot-test :refer :all]
   '[adzerk.boot-cljs :refer [cljs]]
-  '[sweet-tooth.workflow.tasks :refer [dev build reload-integrant]]
+  '[adzerk.boot-reload :refer [reload]]
+  '[sweet-tooth.workflow.tasks :refer [dev build reload-integrant] :as tasks]
   '[com.flyingmachine.datomic-booties.tasks :refer [migrate-db create-db delete-db bootstrap-db recreate-db]]
   '[com.flyingmachine.datomic-junk :as dj]
   '[datomic.api :as d]
@@ -85,9 +86,11 @@
 (let [db     (:sweet-tooth.endpoint/datomic (dev/prep))
       db-uri (select-keys db [:uri])]
   (task-options!
-    cljs {:compiler-options {:parallel-build true
-                             :preloads '[devtools.preload]}
-          :source-map true}
+    cljs {:compiler-options {:asset-path "/main.out"
+                             :parallel-build true
+                             :preloads '[devtools.preload]}}
+
+    reload {:on-jsload 'character-sheet.core/-main}
     
     build {:version "0.2.0"
            :project 'ca

@@ -19,14 +19,13 @@
   :home
   [handler params]
   (dispatch [:load-character-sheets (stru/page-params params)])
-  (dispatch [::strf/load [csl/component] params :home]))
+  (dispatch [::strf/load :home [csl/component] params]))
 
 (defmethod dispatch-route
   :show-character-sheet
   [handler params]
   (dispatch [:load-character-sheet (stcu/id-num (:character-sheet-id params))])
-  (dispatch [::strf/load [css/component] params :show-character-sheet]))
-
+  (dispatch [::strf/load :show-character-sheet [css/component] params]))
 
 (defonce nav
   ;; Prevent this from getting re-configured on every change
@@ -34,7 +33,9 @@
     {:nav-handler
      (fn [path]
        (let [match (bidi/match-route routes/routes path)]
-         (dispatch-route (:handler match) (merge (:route-params match) (stru/query-params path)))))
+         (dispatch-route (:handler match)
+                         (merge (:route-params match)
+                                (stru/query-params path)))))
      :path-exists?
      (fn [path]
        (boolean (bidi/match-route routes/routes path)))}))

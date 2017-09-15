@@ -1,7 +1,8 @@
 (ns character-sheet.subs
   (:require [re-frame.core :refer [reg-sub trim-v]]
             [sweet-tooth.frontend.core.utils :as stcu]
-            [sweet-tooth.frontend.paths :as paths]))
+            [sweet-tooth.frontend.paths :as paths]
+            [sweet-tooth.frontend.routes.utils :as stru]))
 
 (defn param
   [db & path]
@@ -42,4 +43,6 @@
 
 (reg-sub :character-sheet
   (fn [db _]
-    (get-in db [paths/entity-prefix :character-sheet (js/parseInt (param db :character-sheet-id))])))
+    (pr (get-in db [paths/entity-prefix :character-sheet])
+        (get-in db [paths/nav-prefix]))
+    (stru/routed-entity db :character-sheet :character-sheet-id js/parseInt)))
