@@ -8,7 +8,6 @@
 (defn component
   []
   (let [cs @(subscribe [:character-sheet])]
-    (pr "CS" cs)
     [:div.character-sheet.container
      [:a {:href (bidi/path-for routes/routes :home)}
       "home"]

@@ -43,6 +43,4 @@
 
 (reg-sub :character-sheet
   (fn [db _]
-    (pr (get-in db [paths/entity-prefix :character-sheet])
-        (get-in db [paths/nav-prefix]))
     (stru/routed-entity db :character-sheet :character-sheet-id js/parseInt)))

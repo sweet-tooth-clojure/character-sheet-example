@@ -34,9 +34,10 @@
                   [cheshire "5.6.2"]
 
                   ;; client
-                  [reagent                     "0.6.0-rc" :exclusions [cljsjs/react]]
+                  [reagent                     "0.7.0" :exclusions [cljsjs/react]]
                   [cljsjs/marked               "0.3.5-0"]
-                  [cljsjs/react-with-addons    "15.1.0-0"]
+                  [cljsjs/react-dom            "15.6.1-0" :exclusions [cljsjs/react]]
+                  [cljsjs/react-with-addons    "15.6.1-0"]
                   [re-frame                    "0.9.4"]
                   [cljs-ajax                   "0.5.8"]
                   [secretary                   "1.2.3"]
@@ -55,9 +56,9 @@
 
 (def sweet-tooth-packages
   "Define this seperately so packages can get included as checkouts"
-  '[[sweet-tooth/sweet-tooth-frontend "0.2.5"]
-    [sweet-tooth/sweet-tooth-endpoint "0.2.1"]
-    [sweet-tooth/sweet-tooth-workflow "0.2.1"]])
+  '[[sweet-tooth/sweet-tooth-frontend "0.2.6"]
+    [sweet-tooth/sweet-tooth-endpoint "0.2.2"]
+    [sweet-tooth/sweet-tooth-workflow "0.2.4"]])
 
 (set-env! :dependencies #(into % sweet-tooth-packages)
           ;; for dev

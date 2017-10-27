@@ -2,7 +2,6 @@
   (:require [compojure.core :refer [routes]]
             [datomic.api :as d]
             [medley.core :as medley]
-            [character-sheet.db.query.utils :as qu]
             [sweet-tooth.frontend.core.utils :as u]
             [sweet-tooth.endpoint.utils :as c])
   (:refer-clojure :exclude [format]))
