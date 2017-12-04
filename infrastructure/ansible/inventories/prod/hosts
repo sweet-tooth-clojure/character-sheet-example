@@ -1,4 +1,4 @@
-default ansible_ssh_host=138.197.66.144 ansible_ssh_user=root
+default ansible_ssh_host=104.236.236.33 ansible_ssh_user=root
 
 [webservers]
 default
