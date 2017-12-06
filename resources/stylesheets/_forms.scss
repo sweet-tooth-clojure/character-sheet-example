@@ -77,6 +77,13 @@ input[type=submit], button.submit, a.submit {
   &:focus {
     outline: none;
   }
+
+  &.secondary {
+    background: $light-gray;
+    border: 1px solid $light-gray;
+    box-shadow: 0 2px 0px rgba(0,0,0,0.3);
+    margin-left: 1em;
+  }
 }
 
 input[type="radio"] { display: none; }

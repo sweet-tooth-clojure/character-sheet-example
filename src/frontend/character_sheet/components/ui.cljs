@@ -8,6 +8,7 @@
             [sweet-tooth.frontend.core.utils :as stcu]
             [goog.events.KeyCodes :as KeyCodes]
             [sweet-tooth.frontend.paths :as paths]
+            [sweet-tooth.frontend.form.flow :as stff]
             [sweet-tooth.frontend.core.flow :as stcf]))
 
 ;; markdown
@@ -45,7 +46,7 @@
                 show-text
                 hide-text
                 (if data
-                  #(do (dispatch [::stcf/assoc-in (u/flatv full-form-path :data) data])
+                  #(do (dispatch [::stff/initialize-form form-path data])
                        (toggle-fn))
                   toggle-fn))))
 
