@@ -37,7 +37,7 @@
        text]])))
 
 (defn form-toggle
-  [form-path show-text hide-text & [data]]
+  [form-path show-text hide-text & [form-opts]]
   (let [full-form-path (paths/full-form-path form-path)
         ui-state-path (conj full-form-path :ui-state)
         visible (subscribe (u/flatv :key ui-state-path))
@@ -45,10 +45,10 @@
     (toggle-btn visible
                 show-text
                 hide-text
-                (if data
-                  #(do (dispatch [::stff/initialize-form form-path data])
-                       (toggle-fn))
-                  toggle-fn))))
+                (if @visible
+                  toggle-fn
+                  #(do (dispatch [::stff/initialize-form form-path form-opts])
+                       (toggle-fn))))))
 
 (defn focus-child
   [component tag-name & [timeout]]

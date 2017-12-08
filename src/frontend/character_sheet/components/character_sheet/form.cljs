@@ -1,11 +1,19 @@
 (ns character-sheet.components.character-sheet.form
   (:require [re-frame.core :as rf]
+            [clojure.string :as str]
+            [clojure.spec.alpha :as s]
             [sweet-tooth.frontend.form.components :as stfc]
             [sweet-tooth.frontend.form.flow :as stff]
             [sweet-tooth.frontend.pagination.flow :as stpf]
-            [character-sheet.components.ui :as ui]
-            [clojure.string :as str]))
+            [character-sheet.components.ui :as ui]))
 
+(s/def :character-sheet/name (s/and string? not-empty))
+
+(defn validator
+  [form attr-name]
+  (if (and (= attr-name :character-sheet/name)
+           (not (s/valid? :character-sheet/name (get-in form [:data attr-name]))))
+    ["Invalid"]))
 
 (defn reset-button
   [form-dirty? form-path]
@@ -34,7 +42,8 @@
                      :data    {:page page}
                      :clear   :all})]
     [:div.character-sheet-form.form-container
-     [ui/form-toggle form-path (str verb " character-sheet") "hide form" character-sheet]
+     [ui/form-toggle form-path (str verb " character-sheet") "hide form" {:data character-sheet
+                                                                          :error-fn validator}]
      [ui/vertical-slide form-ui-state
       [:div.form
        [:h2 (str verb " character sheet")]
@@ -52,4 +61,3 @@
         [:input {:type "submit" :value "submit"}]
         [reset-button form-dirty? form-path]
         [stfc/progress-indicator form-state]]]]]))
-

@@ -7,6 +7,9 @@
             [compojure.core :refer :all]
             [character-sheet.db.query.character-sheet :as qcs]))
 
+(def validation
+  {:character-sheet/name ["Please enter a name" not-empty]})
+
 (defn decisions
   [component]
   (lc/initialize-decisions
@@ -25,7 +28,8 @@
 
      :delete {:delete! (comp deref ed/delete)}
      
-     :create {:post! #(-> @(ed/create (update-in % [:request :params] dissoc :page))
+     :create {:malformed? (eu/validator validation)
+              :post! #(-> @(ed/create (update-in % [:request :params] dissoc :page))
                           (eu/->ctx :result))
               :handle-created (fn [ctx]
                                 [(->> (qcs/character-sheets (ed/db-after ctx))
