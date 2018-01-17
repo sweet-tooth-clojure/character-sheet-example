@@ -1,19 +1,26 @@
 (ns character-sheet.components.character-sheet.form
   (:require [re-frame.core :as rf]
             [clojure.string :as str]
-            [clojure.spec.alpha :as s]
+            [cljs.spec.alpha :as s]
+            [sweet-tooth.frontend.core.utils :as stcu]
             [sweet-tooth.frontend.form.components :as stfc]
             [sweet-tooth.frontend.form.flow :as stff]
             [sweet-tooth.frontend.pagination.flow :as stpf]
             [character-sheet.components.ui :as ui]))
 
-(s/def :character-sheet/name (s/and string? not-empty))
+(s/def :common/not-empty-string not-empty)
+(s/def :character-sheet/name :common/not-empty-string)
+
+(def validation-messages
+  {`not-empty "must be filled in"})
 
 (defn validator
-  [form attr-name]
-  (if (and (= attr-name :character-sheet/name)
-           (not (s/valid? :character-sheet/name (get-in form [:data attr-name]))))
-    ["Invalid"]))
+  [form-data attr-name val]
+  (try (if-let [errors (s/explain-data attr-name val)]
+         (mapv (comp validation-messages :pred) (::s/problems errors))
+         [])
+       (catch js/Object e ;; no spec
+         [])))
 
 (defn reset-button
   [form-dirty? form-path]
@@ -34,20 +41,20 @@
                 form-ui-state
                 form-errors
                 form-dirty?
-                input]} (stfc/form form-path)
+                input]} (stfc/form form-path {:input (stfc/client-side-validation validator)})
 
-        form-spec (if id
-                    {:clear :all}
-                    {:success ::stpf/submit-form-success-page
-                     :data    {:page page}
-                     :clear   :all})]
+        form-submit-spec (if id
+                           {:clear :all}
+                           {:success ::stpf/submit-form-success-page
+                            :data    {:page page}
+                            :clear   :all})]
     [:div.character-sheet-form.form-container
-     [ui/form-toggle form-path (str verb " character-sheet") "hide form" {:data character-sheet
+     [ui/form-toggle form-path (str verb " character-sheet") "hide form" {:data     character-sheet
                                                                           :error-fn validator}]
      [ui/vertical-slide form-ui-state
       [:div.form
        [:h2 (str verb " character sheet")]
-       [:form (stfc/on-submit form-path form-spec)
+       [:form (stfc/on-submit form-path form-submit-spec)
         [input :text :character-sheet/name]
         [input :number :character-sheet/level]
         [input :textarea :character-sheet/story]
