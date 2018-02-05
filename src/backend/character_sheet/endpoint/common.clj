@@ -3,7 +3,8 @@
             [datomic.api :as d]
             [medley.core :as medley]
             [sweet-tooth.frontend.core.utils :as u]
-            [sweet-tooth.endpoint.utils :as c])
+            [sweet-tooth.endpoint.utils :as eu]
+            [sweet-tooth.endpoint.liberator :as el])
   (:refer-clojure :exclude [format]))
 
 (defn conn
@@ -16,7 +17,7 @@
 
 (defn format-ent
   [e]
-  {:entity (c/format-ent e :db/id)})
+  {:entity (eu/format-ent e :db/id)})
 
 (defn initialize-decisions
   [component decisions]
@@ -28,4 +29,4 @@
 (defn endpoint
   [route decisions]
   (fn [component]
-    (routes (c/resource-route route decisions component))))
+    (routes (el/resource-route route decisions component))))

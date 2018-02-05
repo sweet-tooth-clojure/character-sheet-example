@@ -15,7 +15,7 @@
   {`not-empty "must be filled in"})
 
 (defn validator
-  [form-data attr-name val]
+  [_form-data attr-name val]
   (try (if-let [errors (s/explain-data attr-name val)]
          (mapv (comp validation-messages :pred) (::s/problems errors))
          [])
@@ -41,20 +41,15 @@
                 form-ui-state
                 form-errors
                 form-dirty?
-                input]} (stfc/form form-path {:input (stfc/client-side-validation validator)})
-
-        form-submit-spec (if id
-                           {:clear :all}
-                           {:success ::stpf/submit-form-success-page
-                            :data    {:page page}
-                            :clear   :all})]
+                input]} (stfc/form form-path {:input (stfc/client-side-validation validator)})]
     [:div.character-sheet-form.form-container
-     [ui/form-toggle form-path (str verb " character-sheet") "hide form" {:data     character-sheet
-                                                                          :error-fn validator}]
+     [ui/form-toggle form-path (str verb " character-sheet") "hide form" {:buffer character-sheet}]
      [ui/vertical-slide form-ui-state
       [:div.form
        [:h2 (str verb " character sheet")]
-       [:form (stfc/on-submit form-path form-submit-spec)
+       [:form (stfc/on-submit form-path (cond-> {:clear :all}
+                                          (not id) (merge {:success ::stpf/submit-form-success-page
+                                                           :data    {:page page}})))
         [input :text :character-sheet/name]
         [input :number :character-sheet/level]
         [input :textarea :character-sheet/story]

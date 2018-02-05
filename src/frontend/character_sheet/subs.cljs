@@ -11,18 +11,6 @@
 (reg-sub :key
   (fn [db [_ & path]] (get-in db path)))
 
-(reg-sub :form-data
-  (fn [db [_ & path]] (get-in db (stcu/flatv :forms path :data))))
-
-(reg-sub :form-errors
-  (fn [db [_ & path]] (get-in db (stcu/flatv :forms path :errors))))
-
-(reg-sub :form-state
-  (fn [db [_ & path]] (get-in db (stcu/flatv :forms path :state))))
-
-(reg-sub :form-ui-state
-  (fn [db [_ & path]] (get-in db (stcu/flatv :forms path :ui-state))))
-
 ;; page
 (reg-sub :pager
   (fn [db [_ query-id]]
