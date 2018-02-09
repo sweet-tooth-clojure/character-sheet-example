@@ -22,7 +22,7 @@
   (fn [db [_ query-id]]
     (let [query (get-in db [:page :query query-id])
           results (get-in db [:page :result query])]
-      (map #(get-in db [paths/entity-prefix (:type query) %]) (:ordered-ids results)))))
+      (map #(get-in db (paths/full-path :entity (:type query) %)) (:ordered-ids results)))))
 
 (reg-sub :page-result
   (fn [db [_ query-id]]

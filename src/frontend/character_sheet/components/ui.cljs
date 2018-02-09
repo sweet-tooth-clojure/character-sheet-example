@@ -38,7 +38,7 @@
 
 (defn form-toggle
   [form-path show-text hide-text & [form-opts]]
-  (let [full-form-path (paths/full-form-path form-path)
+  (let [full-form-path (paths/full-path :form form-path)
         ui-state-path (conj full-form-path :ui-state)
         visible (subscribe (u/flatv :key ui-state-path))
         toggle-fn #(dispatch [::stcf/toggle ui-state-path])]

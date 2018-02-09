@@ -39,7 +39,6 @@
         
         {:keys [form-state
                 form-ui-state
-                form-errors
                 form-dirty?
                 input]} (stfc/form form-path {:input (stfc/client-side-validation validator)})]
     [:div.character-sheet-form.form-container

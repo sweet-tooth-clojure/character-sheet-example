@@ -1,15 +1,19 @@
 (ns character-sheet.core
   (:require [reagent.core :as r]
-            [re-frame.core :refer [dispatch-sync dispatch subscribe]]
+            [re-frame.core :as rf :refer [dispatch-sync dispatch subscribe]]
             [accountant.core :as acc]
             [character-sheet.dispatch]
             [character-sheet.handlers]
             [character-sheet.subs]
             [character-sheet.components.markdown-help :as mh]
             [sweet-tooth.frontend.core.utils :as stcu]
-            [sweet-tooth.frontend.routes.flow :as strf]))
+            [sweet-tooth.frontend.routes.flow :as strf]
+            [sweet-tooth.frontend.load-all-handler-ns]
+            [sweet-tooth.frontend.core :as stc]))
 
 (enable-console-print!)
+
+(stc/register-handlers)
 
 ;; treat node lists as seqs; not related to the rest
 (extend-protocol ISeqable

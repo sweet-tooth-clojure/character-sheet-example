@@ -56,7 +56,7 @@
 
 (def sweet-tooth-packages
   "Define this seperately so packages can get included as checkouts"
-  '[[sweet-tooth/sweet-tooth-frontend "0.2.14-SNAPSHOT"]
+  '[[sweet-tooth/sweet-tooth-frontend "0.3.2-SNAPSHOT"]
     [sweet-tooth/sweet-tooth-endpoint "0.2.3-SNAPSHOT"]
     [sweet-tooth/sweet-tooth-workflow "0.2.4"]])
 
